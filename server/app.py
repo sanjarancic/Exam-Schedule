@@ -4,10 +4,11 @@ from models import db, User
 from flask_jwt import JWT
 from config import config
 from routes.user import user_api
+from init_db import initialize_superuser, initialize_subjects
 
 # instantiate the app
 app = Flask(__name__)
-app.register_blueprint(user_api, url_prefix="/user")
+app.register_blueprint(user_api, url_prefix='/user')
 
 # configuration
 app.config['DEBUG'] = True
@@ -33,6 +34,10 @@ def identity(payload):
 
 jwt = JWT(app, authenticate, identity)
 
+@app.before_first_request
+def initialize_database():
+    initialize_subjects()
+    initialize_superuser()
 
 if __name__ == '__main__':
     app.run()

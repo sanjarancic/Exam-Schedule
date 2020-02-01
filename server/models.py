@@ -10,11 +10,13 @@ db = SQLAlchemy()
 class Subject(db.Model):
     __tablename__ = 'subjects'
 
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String,unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    year = db.Column(db.Integer)
 
-    def __init__(self, name):
+    def __init__(self, name, year):
         self.name = name
+        self.year = year
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
@@ -22,8 +24,13 @@ class Subject(db.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'name': self.name
+            'name': self.name,
+            'year': self.year
         }
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -31,6 +38,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String,unique=True)
     password = db.Column(db.String)
+    is_superuser = db.Column(db.Boolean, default=False)
 
     def __generate_hash(self, password):
         return bcrypt.generate_password_hash(password, rounds=10).decode("utf-8")
@@ -38,9 +46,10 @@ class User(db.Model):
     def check_hash(self, password):
         return bcrypt.check_password_hash(self.password, password)
 
-    def __init__(self, username, password):
+    def __init__(self, username, password, is_superuser = False):
         self.username = username
         self.password = self.__generate_hash(password)
+        self.is_superuser = is_superuser
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
