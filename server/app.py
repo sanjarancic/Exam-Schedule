@@ -6,6 +6,7 @@ from config import config
 from routes.user import user_api
 from routes.exams import exams_api
 from init_db import initialize_superuser, initialize_subjects
+import datetime
 
 # instantiate the app
 app = Flask(__name__)
@@ -16,6 +17,8 @@ app.register_blueprint(exams_api, url_prefix='/exams')
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = config['SQLALCHEMY_DATABASE_URI']
 app.config['SECRET_KEY'] = config['SECRET_KEY']
+
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(days=365)
 
 db.init_app(app)
 

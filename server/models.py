@@ -151,3 +151,6 @@ class Application(db.Model):
             'exam_id': self.exam_id
         }
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
