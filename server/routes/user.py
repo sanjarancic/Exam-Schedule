@@ -1,7 +1,8 @@
 from models import User
-from flask import request, Blueprint
+from flask import request, Blueprint, jsonify
 from utils import custom_response
-from flask_jwt import jwt_required
+from flask_jwt import jwt_required, current_identity
+
 
 user_api = Blueprint('user_api', __name__)
 
@@ -22,3 +23,9 @@ def register():
     return custom_response({'message': 'Successfully registered'}, 201)
 
 
+@user_api.route('/current', methods=['POST'])
+@jwt_required()
+def protected():
+    current_user = current_identity
+    print('Current user is {}'.format(current_user.serialize()))
+    return custom_response({'user': current_user.serialize()})

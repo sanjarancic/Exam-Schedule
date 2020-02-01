@@ -21,6 +21,7 @@ class Subject(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
+    
     def serialize(self):
         return {
             'id': self.id,
@@ -53,6 +54,10 @@ class User(db.Model):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
+    
+    def identity(payload):
+        user_id = payload['identity']
+        return User.get(user_id, None)
 
     def serialize(self):
         return {
@@ -62,7 +67,11 @@ class User(db.Model):
 
     @staticmethod
     def get_by_username(value):
-        return User.query.filter_by(username=value).first()
+        return User.query.filter(User.username==value).first()
+
+    @staticmethod
+    def get_by_id(value):
+        return User.query.filter(User.id==value).first()
 
     def save(self):
         db.session.add(self)
@@ -88,6 +97,7 @@ class Exam_period(db.Model):
     def __repr__(self):
         return '<id {}>'.format(self.id)
 
+    
     def serialize(self):
         return {
             'id': self.id,
@@ -140,3 +150,4 @@ class Application(db.Model):
             'user_id': self.user_id,
             'exam_id': self.exam_id
         }
+

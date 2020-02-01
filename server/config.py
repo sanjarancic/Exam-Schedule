@@ -1,7 +1,7 @@
 POSTGRES = {
     'user': 'postgres',
-    'pw': 'postgres',
-    'db': 'postgres',
+    'pw': 'daniel123',
+    'db': 'examschedule',
     'host': 'localhost',
     'port': '5432',
 }

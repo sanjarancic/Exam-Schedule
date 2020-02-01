@@ -6,11 +6,12 @@ def initialize_subjects():
     subjects_in_db = Subject.query.all()
 
     if not subjects_in_db:
-        with open('subjects.json', 'r') as file:
+        with open('subjects.json', 'r', encoding="utf8") as file:
             subjects = json.loads(file.read())
 
         for (year, subjects_in_year) in enumerate(subjects, start=1):
             for subject_name in subjects_in_year:
+                # print(subject_name)
                 s = Subject(subject_name, year)
                 s.save()
 
