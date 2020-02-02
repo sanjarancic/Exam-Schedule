@@ -40,6 +40,6 @@ def getAppliedExams():
     print(applied_exams)
     for exam in applied_exams:
         print(exam.serialize())
-
+ 
     exams_json = [application.serialize() for application in applied_exams]
     return custom_response(exams_json)
