@@ -4,14 +4,14 @@ from models import db, User
 from flask_jwt import JWT
 from config import config
 from routes.user import user_api
-from routes.exams import exams_api
+from routes.exam import exam_api
 from init_db import initialize_superuser, initialize_subjects
 import datetime
 
 # instantiate the app
 app = Flask(__name__)
 app.register_blueprint(user_api, url_prefix='/user')
-app.register_blueprint(exams_api, url_prefix='/exams')
+app.register_blueprint(exam_api)
 
 # configuration
 app.config['DEBUG'] = True
@@ -34,8 +34,8 @@ def authenticate(username, password):
 
 def identity(payload):
     user_id = payload['identity']
-    print('Checking identify for {}'.format(user_id))
-    return User.get_by_id(user_id)
+    return User.query.get(user_id)
+
 
 
 jwt = JWT(app, authenticate, identity)

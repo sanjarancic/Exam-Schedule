@@ -127,8 +127,12 @@ class Exam(db.Model):
             'id': self.id,
             'subject_id': self.subject_id,
             'exam_period_id': self.exam_period_id,
-            'date': self.date
+            'date': str(self.date)
         }
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 class Application(db.Model):
     __tablename__ = 'applications'
