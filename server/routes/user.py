@@ -1,4 +1,4 @@
-from models import User
+from models import User, Subject, Exam, Application, db
 from flask import request, Blueprint, jsonify
 from utils import custom_response
 from flask_jwt import jwt_required, current_identity
