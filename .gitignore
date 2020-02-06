@@ -23,4 +23,4 @@ yarn-error.log*
 *.sln
 *.sw?
 
-server/config.py
+# server/config.py
